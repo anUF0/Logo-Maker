@@ -21,11 +21,11 @@ This project was made with assistance of is-css3-color, inquirer, jest and node.
 
 
 ## Tests
-Test for all three logo shapes can be found in the 'test' folder.
-Install jest in node.js and run them in the terminal.
+Test for all three logo shapes can be found here ![tests](./tests/).
+Install jest in node.js and run them in the terminal with .
 There is also a demonstration of the app in use in the folder. 
-[link to demo]
-Additionally a sample logo can be found in the output folder.
+![Demo](./tests/Demo.webm)
+Additionally a sample logo can be found in the ![output folder](./output/example.svg).
 
 ## Questions
 For anymore questions contact me at https://github.com/anUF0

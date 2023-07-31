@@ -1,8 +1,11 @@
+//Imports third-party dependencies
 const inquirer = require('inquirer');
 const fs = require('fs');
-const setShape = require('./lib/setShape');
 const isCss3Color = require('is-css3-color');
+//Imports function that checks inputs into the .svg fil
+const setShape = require('./lib/setShape');
 
+//Series of Prompts to get data
 inquirer.prompt([
   {
     type: 'list',
@@ -21,6 +24,7 @@ inquirer.prompt([
     name: 'logoColour',
     message: 'Enter the keyword',
     when: (answers) => {
+        //Check answer of previous question(repeated)
         if(answers.logoColourChoice === 'Keyword') {
             return true;
         }
@@ -45,6 +49,7 @@ inquirer.prompt([
         }
         return false;
     },
+    // Vadiadates Code of hexadecial options(repeated)
     validate: (answer) => {
         const hexRegEx = '^#[A-Fa-f0-9]{6}$'
         if (!answer.match(hexRegEx)) {
@@ -107,7 +112,8 @@ inquirer.prompt([
 },
 ]).then((data) => {
     const logo = setShape(data);
- 
+    
+    //Creates the .svg file
     fs.writeFile('./output/logo.svg',  logo, (err) =>
     err ? console.error(err) : console.log('Generated logo.svg')
     );
