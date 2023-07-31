@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const setShape = require('./lib/setShape');
-const colourKeys = require('./lib/colourKeys');
-const { error } = require('console');
+///const colourKeys = require('./lib/colourKeys');
+const isCss3Color = require("is-css3-color");
 
 inquirer.prompt([
   {
@@ -27,14 +27,14 @@ inquirer.prompt([
         }
         return false;
     },
-    validate: (answer) => {
-        let answerLowercase = answer.toLowerCase();
-        for (var i = 0, len = colourKeys.length; i < len; i) {
-            if (answerLowercase.indexOf(colourKeys[i]) != -1) {
-            return true;
-        }}
-        return error("\n Please enter a valid colour key")
+    validate: (answers) => {
+        if (!isCss3Color(answers)) {
+            throw new Error('Please enter a vaild css color keyword');
     }
+    else{
+        return true;
+    }
+}
 },
 {
     type: "input",
@@ -49,7 +49,7 @@ inquirer.prompt([
     validate: (answer) => {
         const hexRegEx = '^#[A-Fa-f0-9]{6}$'
         if (!answer.match(hexRegEx)) {
-            return error("\n Please enter a valid hexadecimal")
+            throw new Error("Please enter a valid hexadecimal")
         }
         return true;
     }
@@ -60,7 +60,7 @@ inquirer.prompt([
     type: 'input',
     validate: (answer) => {
         if (answer.length > 3) {
-            return error("\n Text must be three characters or less! Please try again");
+            throw new Error(" Text must be three characters or less! Please try again");
         }
         return true;
     }
@@ -81,13 +81,11 @@ inquirer.prompt([
         }
         return false;
     },
-    validate: (answer) => {
-        let answerLowercase = answer.toLowerCase();
-        for (var i = 0, len = colourKeys.length; i < len; ++i) {
-            if (answerLowercase.indexOf(colourKeys[i]) != -1) {
-            return true;
-        }}
-        return error("\n Please enter a valid colour keyword")
+    validate: (answers) => {
+        if (!isCss3Color(answers)) {
+         throw new Error('Please enter a vaild css color keyword');
+    }
+    return true;
     }
 },
 {
@@ -103,14 +101,14 @@ inquirer.prompt([
     validate: (answer) => {
         const hexRegEx = '^#[A-Fa-f0-9]{6}$'
         if (!answer.match(hexRegEx)) {
-        error("\n Please enter a valid hexadecimal")
+         throw new Error('Please enter a valid hexadecimal')
         }
         return true;
     }
 },
 ]).then((data) => {
   console.log(data)
-    console.log(data.logoColour);
+    console.log(data.textColour);
  
     const logo = setShape(data);
  
