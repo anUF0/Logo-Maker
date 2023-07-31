@@ -1,26 +1,25 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const setShape = require('./lib/setShape');
-///const colourKeys = require('./lib/colourKeys');
-const isCss3Color = require("is-css3-color");
+const isCss3Color = require('is-css3-color');
 
 inquirer.prompt([
   {
+    type: 'list',
     name: 'logoShape',
     message: 'What shape should your logo be??',
-    type: 'list',
     choices: ['Circle', 'Square', 'Triangle'],
 },
 {
-    name: 'logoColourChoice',
-    message: 'What formatf is the background colour in? ',
     type: 'list',
+    name: 'logoColourChoice',
+    message: 'What format is the background colour in? ',
     choices: ['Keyword', 'Hexadecimal']
 },
 {
-    type: "input",
-    name: "logoColour",
-    message: "Enter the keyword",
+    type: 'input',
+    name: 'logoColour',
+    message: 'Enter the keyword',
     when: (answers) => {
         if(answers.logoColourChoice === 'Keyword') {
             return true;
@@ -37,9 +36,9 @@ inquirer.prompt([
 }
 },
 {
-    type: "input",
-    name: "logoColour",
-    message: "Enter Hexadecimal (#XXXXXX)",
+    type: 'input',
+    name: 'logoColour',
+    message: 'Enter Hexadecimal (#XXXXXX)',
     when: (answers) => {
         if(answers.logoColourChoice === 'Hexadecimal') {
             return true;
@@ -49,32 +48,32 @@ inquirer.prompt([
     validate: (answer) => {
         const hexRegEx = '^#[A-Fa-f0-9]{6}$'
         if (!answer.match(hexRegEx)) {
-            throw new Error("Please enter a valid hexadecimal")
+            throw new Error('Please enter a valid hexadecimal')
         }
         return true;
     }
 },
 {
+    type: 'input',
     name: 'logoText',
     message: 'What is the text? (three character maximum)',
-    type: 'input',
     validate: (answer) => {
         if (answer.length > 3) {
-            throw new Error(" Text must be three characters or less! Please try again");
+            throw new Error(' Text must be three characters or less! Please try again');
         }
         return true;
     }
 },
-{
+{   
+    type: 'list',
     name: 'textColourChoice',
     message: 'What format is the text colour in?',
-    type: 'list',
     choices: ['Keyword', 'Hexadecimal']
 },
 {
-    type: "input",
-    name: "textColour",
-    message: "Enter the text colour keys",
+    type: 'input',
+    name: 'textColour',
+    message: 'Enter the text colour keys',
     when: (answers) => {
         if(answers.textColourChoice === 'Keyword') {
             return true;
@@ -89,9 +88,9 @@ inquirer.prompt([
     }
 },
 {
-    type: "input",
-    name: "textColour",
-    message: "Enter Hexadecimal (#XXXXXX)",
+    type: 'input',
+    name: 'textColour',
+    message: 'Enter Hexadecimal (#XXXXXX)',
     when: (answers) => {
         if(answers.textColourChoice === 'Hexadecimal') {
             return true;
@@ -107,12 +106,9 @@ inquirer.prompt([
     }
 },
 ]).then((data) => {
-  console.log(data)
-    console.log(data.textColour);
- 
     const logo = setShape(data);
  
-    fs.writeFile('./output/example.svg',  logo, (err) =>
-    err ? console.error(err) : console.log("Generated logo.svg")
+    fs.writeFile('./output/logo.svg',  logo, (err) =>
+    err ? console.error(err) : console.log('Generated logo.svg')
     );
 }).catch((err) => console.error(err));
