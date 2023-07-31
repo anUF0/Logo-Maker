@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "is-css3-color": "^1.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.2"
+  }
+}
