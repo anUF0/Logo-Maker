@@ -12,8 +12,8 @@ inquirer.prompt([
     choices: ['Circle', 'Square', 'Triangle'],
 },
 {
-    name: 'shapeColourChoice',
-    message: 'What format is the background colour in? ',
+    name: 'logoColourChoice',
+    message: 'What formatf is the background colour in? ',
     type: 'list',
     choices: ['Keyword', 'Hexadecimal']
 },
@@ -22,14 +22,14 @@ inquirer.prompt([
     name: "logoColour",
     message: "Enter the keyword",
     when: (answers) => {
-        if(answers.shapeColourChoice === 'Keyword') {
+        if(answers.logoColourChoice === 'Keyword') {
             return true;
         }
         return false;
     },
     validate: (answer) => {
         let answerLowercase = answer.toLowerCase();
-        for (var i = 0, len = colourKeys.length; i < len; ++i) {
+        for (var i = 0, len = colourKeys.length; i < len; i) {
             if (answerLowercase.indexOf(colourKeys[i]) != -1) {
             return true;
         }}
@@ -38,10 +38,10 @@ inquirer.prompt([
 },
 {
     type: "input",
-    name: "shapeColour",
-    message: "Enter hexadecimal number",
+    name: "logoColour",
+    message: "Enter Hexadecimal (#XXXXXX)",
     when: (answers) => {
-        if(answers.shapeColourChoice === 'Hexadecimal') {
+        if(answers.logoColourChoice === 'Hexadecimal') {
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ inquirer.prompt([
     name: 'textColourChoice',
     message: 'What format is the text colour in?',
     type: 'list',
-    choices: [' Keyword', 'Hexadecimal']
+    choices: ['Keyword', 'Hexadecimal']
 },
 {
     type: "input",
@@ -93,9 +93,9 @@ inquirer.prompt([
 {
     type: "input",
     name: "textColour",
-    message: "Enter the hexadecimal",
+    message: "Enter Hexadecimal (#XXXXXX)",
     when: (answers) => {
-        if(answers.textColourChoice === 'hexadecimal') {
+        if(answers.textColourChoice === 'Hexadecimal') {
             return true;
         }
         return false;
@@ -109,10 +109,12 @@ inquirer.prompt([
     }
 },
 ]).then((data) => {
-  console.log(data);
- const logo = setShape(data);
+  console.log(data)
+    console.log(data.logoColour);
  
- fs.writeFile('./output/example.svg',  logo, (err) =>
- err ? console.error(err) : console.log("Generated logo.svg")
-);
+    const logo = setShape(data);
+ 
+    fs.writeFile('./output/example.svg',  logo, (err) =>
+    err ? console.error(err) : console.log("Generated logo.svg")
+    );
 }).catch((err) => console.error(err));
